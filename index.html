@@ -742,7 +742,7 @@ Footwear. Essentials. Gift-ready surprises.</p>
                 `).join('');
             }
             // WhatsApp checkout link
-            const msg = encodeURIComponent('Hi Enny Gold Collection! I want to order:\n' + cart.map(i=>'- '+i.title).join('\n'));
+            const msg = encodeURIComponent('Hi Enny Gold Collection! I want to order:\n' + cat.map(i=>'- '+i.title).join('\n'));
             document.getElementById('whatsappCheckout').href = 'https://wa.me/08145968209?text=' + msg;
         }
         function showCart() {
