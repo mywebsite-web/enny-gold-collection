@@ -1,0 +1,628 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <title>Surprise Packages | Enny Gold Collections</title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Montserrat:400,700&display=swap">
+    <style>
+        body {
+            font-family: 'Montserrat', Arial, sans-serif;
+            margin: 0;
+            background: #fff;
+            color: #222;
+        }
+        header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+            background: #f8f6f2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.03);
+        }
+        .logo {
+            font-weight: bold;
+            font-size: 1.5rem;
+            letter-spacing: 2px;
+            color: #da0a0a;
+        }
+        nav {
+            display: flex;
+            gap: 1.5rem;
+        }
+        nav a {
+            text-decoration: none;
+            color: #222;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+        nav a.active, nav a:hover {
+            color: #d20d0d;
+        }
+        .header-actions {
+            display: flex;
+            gap: 1rem;
+            align-items: center;
+        }
+        .header-actions i, .header-actions span {
+            cursor: pointer;
+            font-size: 1.2rem;
+            color: #222;
+            transition: color 0.2s;
+        }
+        .header-actions i:hover, .header-actions span:hover {
+            color: #3d3521;
+        }
+        .cart-icon {
+            position: relative;
+        }
+        .cart-count {
+            position: absolute;
+            top: -8px;
+            right: -8px;
+            background: #e39b9b;
+            color: #fff;
+            border-radius: 50%;
+            font-size: 0.8rem;
+            padding: 2px 6px;
+        }
+        /* Hero Section */
+        .hero {
+            position: relative;
+            height: 350px;
+            background: url('bg.jpeg') center/cover no-repeat;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 2rem;
+        }
+        .hero-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(174, 95, 95, 0.25);
+            z-index: 1;
+        }
+        .hero-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: #fff;
+        }
+        .hero-content h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.15);
+        }
+        .hero-content p {
+            font-size: 1.2rem;
+            margin-bottom: 1.5rem;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.10);
+        }
+        .explore-btn {
+            background: #6a2020;
+            color: #fff;
+            border: none;
+            padding: 0.8rem 2rem;
+            font-size: 1rem;
+            border-radius: 30px;
+            cursor: pointer;
+            font-weight: 600;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.10);
+            transition: background 0.2s;
+        }
+        .explore-btn:hover {
+            background: #d74d4d;
+        }
+        /* Categories */
+        .categories {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+        .category-card {
+            background: #fff;
+            border: 2px solid #e53443;
+            border-radius: 16px;
+            padding: 1.2rem 2rem;
+            text-align: center;
+            font-size: 1.1rem;
+            font-weight: 600;
+            cursor: pointer;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            transition: box-shadow 0.2s, border-color 0.2s;
+            min-width: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 0.5rem;
+        }
+        .category-card.active, .category-card:hover {
+            border-color: #ca3434;
+            box-shadow: 0 4px 16px rgba(191,167,106,0.10);
+            background: #f8f6f2;
+        }
+        /* Product Grid */
+        .products-section {
+            max-width: 1100px;
+            margin: 0 auto 3rem auto;
+            padding: 0 1rem;
+        }
+        .products-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 2rem;
+            margin-top: 1.5rem;
+        }
+        .product-card {
+            background: #fff;
+            border-radius: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+            padding: 1rem;
+            text-align: center;
+            transition: transform 0.2s, box-shadow 0.2s;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 340px;
+        }
+        .product-card:hover {
+            transform: translateY(-4px) scale(1.03);
+            box-shadow: 0 8px 24px rgba(191,167,106,0.10);
+        }
+        .product-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            border-radius: 12px;
+            margin-bottom: 1rem;
+            background: #f8f6f2;
+        }
+        .product-label {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #e84040;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+        .product-desc {
+            font-size: 0.95rem;
+            color: #555;
+            margin-bottom: 1.2rem;
+            min-height: 40px;
+        }
+        .product-actions {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            margin-top: auto;
+        }
+        .add-cart-btn {
+            background: #8f1e1e;
+            color: #fff;
+            border: none;
+            padding: 0.5rem 1.2rem;
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 600;
+            transition: background 0.2s;
+        }
+        .add-cart-btn:hover {
+            background: #a54132;
+        }
+        .save-img-btn {
+            background: none;
+            border: none;
+            color: #f32f2f;
+            font-size: 1.3rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .save-img-btn:hover {
+            color: #a68c5b;
+        }
+        /* Cart Drawer */
+        .cart-drawer {
+            position: fixed;
+            top: 0; right: -400px;
+            width: 340px;
+            height: 100%;
+            background: #fff;
+            box-shadow: -4px 0 24px rgba(191,167,106,0.10);
+            z-index: 1000;
+            transition: right 0.3s;
+            display: flex;
+            flex-direction: column;
+            padding: 2rem 1.2rem 1rem 1.2rem;
+        }
+        .cart-drawer.open {
+            right: 0;
+        }
+        .cart-header {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #c43b3b;
+            margin-bottom: 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .cart-items {
+            flex: 1;
+            overflow-y: auto;
+            margin-bottom: 1rem;
+        }
+        .cart-item {
+            display: flex;
+            align-items: center;
+            gap: 0.8rem;
+            margin-bottom: 1rem;
+            border-bottom: 1px solid #f0e9d8;
+            padding-bottom: 0.7rem;
+        }
+        .cart-item-img {
+            width: 48px;
+            height: 48px;
+            object-fit: cover;
+            border-radius: 8px;
+            background: #f8f6f2;
+        }
+        .cart-item-label {
+            flex: 1;
+            font-size: 1rem;
+            color: #222;
+        }
+        .cart-remove-btn {
+            background: none;
+            border: none;
+            color: #bfa76a;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+        .cart-remove-btn:hover {
+            color: #da2e21;
+        }
+        .cart-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.7rem;
+        }
+        .checkout-btn {
+            background: #25d366;
+            color: #fff;
+            border: none;
+            padding: 0.7rem 1.2rem;
+            border-radius: 20px;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: background 0.2s;
+            margin-top: 0.5rem;
+        }
+        .checkout-btn:hover {
+            background: #1ebc59;
+        }
+        /* Floating WhatsApp Button */
+        .whatsapp-float {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            z-index: 1200;
+            background: #25d366;
+            color: #fff;
+            border-radius: 50%;
+            width: 56px;
+            height: 56px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: 0 4px 16px rgba(37,211,102,0.15);
+            cursor: pointer;
+            font-size: 2rem;
+            transition: background 0.2s;
+        }
+        .whatsapp-float:hover {
+            background: #1ebc59;
+        }
+        /* Responsive */
+        @media (max-width: 900px) {
+            .products-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            header {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .categories {
+                gap: 1rem;
+            }
+        }
+        @media (max-width: 600px) {
+            .hero {
+                height: 220px;
+            }
+            .hero-content h1 {
+                font-size: 1.5rem;
+            }
+            .categories {
+                flex-direction: column;
+                gap: 1rem;
+            }
+            .category-card {
+                min-width: 100px;
+                padding: 1rem;
+            }
+            .cart-drawer {
+                width: 100vw;
+                max-width: 100vw;
+                padding: 1.2rem 0.7rem 1rem 0.7rem;
+            }
+        }
+    </style>
+    <script src="https://kit.fontawesome.com/7e5e6e2c7e.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="logo">Enny Gold Collections</div>
+        <nav>
+            <a href="enny.html">Home</a>
+            <a href="#">Men</a>
+            <a href="#">Women</a>
+            <a href="#">Essentials</a>
+            <a href="#" class="active">Surprise Packages</a>
+        </nav>
+        <div class="header-actions">
+            <span title="Search"><i class="fas fa-search"></i></span>
+            <span title="Wishlist"><i class="fas fa-heart"></i></span>
+            <span title="Track Order"><i class="fas fa-truck"></i></span>
+            <span title="Login"><i class="fas fa-user"></i></span>
+            <span class="cart-icon" id="cartIcon" title="Cart">
+                <i class="fas fa-shopping-cart"></i>
+                <span class="cart-count" id="cartCount">0</span>
+            </span>
+        </div>
+    </header>
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-overlay"></div>
+        <div class="hero-content">
+            <h1>Thoughtful Gifts Made Easy</h1>
+            <p>Curated surprise boxes for the people that matter</p>
+            <button class="explore-btn" onclick="document.getElementById('categories').scrollIntoView({behavior:'smooth'})">EXPLORE PACKAGES</button>
+        </div>
+    </section>
+    <!-- Categories -->
+    <section id="categories" class="categories">
+        <div class="category-card active" data-category="family" onclick="selectCategory('family')">
+            <span style="font-size:1.5rem;">🎁</span>
+            For Family
+        </div>
+        <div class="category-card" data-category="friends" onclick="selectCategory('friends')">
+            <span style="font-size:1.5rem;">🎉</span>
+            For Friends
+        </div>
+        <div class="category-card" data-category="lover" onclick="selectCategory('lover')">
+            <span style="font-size:1.5rem;">❤️</span>
+            For Lover
+        </div>
+    </section>
+    <!-- Products Grid -->
+    <section class="products-section">
+        <div id="productsGrid" class="products-grid"></div>
+    </section>
+    <!-- Cart Drawer -->
+    <div class="cart-drawer" id="cartDrawer">
+        <div class="cart-header">
+            <span>Cart</span>
+            <button class="cart-remove-btn" onclick="toggleCart(false)" title="Close"><i class="fas fa-times"></i></button>
+        </div>
+        <div class="cart-items" id="cartItems"></div>
+        <div class="cart-actions">
+            <button class="checkout-btn" onclick="checkoutWhatsapp()">Checkout on WhatsApp</button>
+        </div>
+    </div>
+    <!-- Floating WhatsApp Button -->
+    <div class="whatsapp-float" onclick="openWhatsappChat()">
+        <i class="fab fa-whatsapp"></i>
+    </div>
+    <script>
+        // Demo data
+        const PRODUCTS = {
+            family: [
+                {
+                    id: 'fam1',
+                    label: 'Family Surprise Box',
+                    icons: '🎁💐',
+                    img: 'sup1.jpeg',
+                    desc: 'A box of treats and keepsakes for the whole family to enjoy together.',
+                },
+                {
+                    id: 'fam2',
+                    label: 'Home Comforts Pack',
+                    icons: '🏡🕯️',
+                    img: 'supF2.jpeg',
+                    desc: 'Warmth, snacks, and cozy essentials for family moments.',
+                },
+                {
+                    id: 'fam3',
+                    label: 'Family Movie Night Kit',
+                    icons: '🍿🎬',
+                    img: 'supF3.jpeg',
+                    desc: 'Popcorn, snacks, and fun for a memorable movie night.',
+                }
+            ],
+            friends: [
+                {
+                    id: 'fr1',
+                    label: 'Friends Fun Box',
+                    icons: '🎉🎁',
+                    img: 'sup2.jpeg',
+                    desc: 'Surprises and games for your besties.',
+                },
+                {
+                    id: 'fr2',
+                    label: 'Chill & Cheer Pack',
+                    icons: '🍹😄',
+                    img: 'supFR2.jpeg',
+                    desc: 'Drinks, snacks, and good vibes for friends.',
+                },
+                {
+                    id: 'fr3',
+                    label: 'Memory Maker Box',
+                    icons: '📸🎈',
+                    img: 'supFR3.jpeg',
+                    desc: 'Capture and celebrate friendship moments.',
+                }
+            ],
+            lover: [
+                {
+                    id: 'lv1',
+                    label: "Lover's Gift Box",
+                    icons: '❤️🎁',
+                    img: 'sup3.jpeg',
+                    desc: 'Romantic surprises for your special someone.',
+                },
+                {
+                    id: 'lv2',
+                    label: 'Sweetheart Treats',
+                    icons: '🍫💌',
+                    img: 'supL2.jpeg',
+                    desc: 'Chocolates, notes, and love tokens.',
+                },
+                {
+                    id: 'lv3',
+                    label: 'Money Bouquet ',
+                    icons: '🌹🍷',
+                    img: 'supL3.jpeg',
+                    desc: 'Everything for a cozy, romantic evening.',
+                }
+            ]
+        };
+        let selectedCategory = 'family';
+        let cart = [];
+
+        function selectCategory(cat) {
+            selectedCategory = cat;
+            document.querySelectorAll('.category-card').forEach(card => {
+                card.classList.toggle('active', card.dataset.category === cat);
+            });
+            renderProducts();
+        }
+
+        function renderProducts() {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = '';
+            PRODUCTS[selectedCategory].forEach(prod => {
+                const card = document.createElement('div');
+                card.className = 'product-card';
+                card.innerHTML = `
+                    <img src="${prod.img}" alt="${prod.label}" class="product-img" />
+                    <div class="product-label">${prod.icons} ${prod.label}</div>
+                    <div class="product-desc">${prod.desc || ''}</div>
+                    <div class="product-actions">
+                        <button class="add-cart-btn" onclick="addToCart('${prod.id}')">Add to Cart</button>
+                        <button class="save-img-btn" onclick="saveImage('${prod.img}')" title="Save Image"><i class="fas fa-download"></i></button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        function addToCart(id) {
+            const prod = PRODUCTS[selectedCategory].find(p => p.id === id);
+            if (!prod) return;
+            if (!cart.find(item => item.id === id)) {
+                cart.push({...prod, category: selectedCategory});
+                updateCartCount();
+                showCartDrawer();
+                renderCart();
+            }
+        }
+
+        function updateCartCount() {
+            document.getElementById('cartCount').textContent = cart.length;
+        }
+
+        function renderCart() {
+            const itemsDiv = document.getElementById('cartItems');
+            itemsDiv.innerHTML = '';
+            if (cart.length === 0) {
+                itemsDiv.innerHTML = '<div style="text-align:center;color:#bfa76a;">Your cart is empty.</div>';
+                return;
+            }
+            cart.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'cart-item';
+                div.innerHTML = `
+                    <img src="${item.img}" class="cart-item-img" alt="${item.label}" />
+                    <div class="cart-item-label">${item.icons} ${item.label}</div>
+                    <button class="cart-remove-btn" onclick="removeFromCart('${item.id}')"><i class="fas fa-trash"></i></button>
+                `;
+                itemsDiv.appendChild(div);
+            });
+        }
+
+        function removeFromCart(id) {
+            cart = cart.filter(item => item.id !== id);
+            updateCartCount();
+            renderCart();
+        }
+
+        function showCartDrawer() {
+            document.getElementById('cartDrawer').classList.add('open');
+        }
+
+        function toggleCart(open) {
+            document.getElementById('cartDrawer').classList.toggle('open', open);
+        }
+
+        document.getElementById('cartIcon').onclick = () => {
+            showCartDrawer();
+            renderCart();
+        };
+
+        // WhatsApp Checkout
+        function checkoutWhatsapp() {
+            if (cart.length === 0) return;
+            const msg = cart.map(item => `Hi! I'd like to order the ${item.label}`).join('\n');
+            const phone = '08145968209'; // Replace with your store WhatsApp number
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent(msg)}`, '_blank');
+        }
+
+        // Floating WhatsApp
+        function openWhatsappChat() {
+            const phone = '08145968209'; // Replace with your store WhatsApp number
+            window.open(`https://wa.me/${phone}?text=${encodeURIComponent('Hi! I\'m interested in your surprise packages.')}`, '_blank');
+        }
+
+        // Save Image
+        function saveImage(url) {
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = 'surprise-package.jpg';
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+
+        // Initial render
+        renderProducts();
+
+        // Smooth scroll for Explore button already handled inline
+
+        // Close cart drawer on outside click
+        document.addEventListener('click', function(e) {
+            const drawer = document.getElementById('cartDrawer');
+            if (drawer.classList.contains('open') && !drawer.contains(e.target) && !document.getElementById('cartIcon').contains(e.target)) {
+                drawer.classList.remove('open');
+            }
+        });
+    </script>
+</body>
+</html>
